@@ -8,9 +8,6 @@ import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
-
-
-
 router.post(
   '/create-user',
   // auth(USER_ROLE.superAdmin, USER_ROLE.admin),
@@ -31,11 +28,18 @@ router.post(
 );
 
 router.get(
+  '/',
+  UserControllers.getUsers,
+);
+
+router.get(
+  '/:email',
+  UserControllers.getUser,
+);
+
+router.get(
   '/me',
-  auth(
-    USER_ROLE.superAdmin,
-    USER_ROLE.admin,
-  ),
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   UserControllers.getMe,
 );
 

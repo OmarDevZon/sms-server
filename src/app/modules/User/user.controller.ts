@@ -17,18 +17,25 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
-  const result = await UserServices.createAdminIntoDB(
-    req.file,
-    password,
-    adminData,
-  );
+const getUsers = catchAsync(async (req, res) => {
+  const result = await UserServices.getUsersFromDB();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is created successfully',
+    message: 'User is retrieved successfully',
+    data: result,
+  });
+});
+
+const getUser = catchAsync(async (req, res) => {
+  const { email } = req.params;
+  const result = await UserServices.getUserFromDB(email as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is retrieved successfully',
     data: result,
   });
 });
@@ -59,7 +66,8 @@ const changeStatus = catchAsync(async (req, res) => {
 });
 export const UserControllers = {
   createUser,
-  createAdmin,
+  getUsers,
+  getUser,
   getMe,
   changeStatus,
 };

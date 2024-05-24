@@ -3,17 +3,23 @@
 import { User } from './user.model';
 import { TUser } from './user.interface';
 
-
-const createUserIntoDB = async (
-  payload: TUser,
-) => {
+const createUserIntoDB = async (payload: TUser) => {
   payload.role = 'user';
-
-  
   const result = await User.create(payload);
   return result;
 };
 
+const getUsersFromDB = async () => {
+  const result = await User.find();
+
+  return result;
+};
+
+const getUserFromDB = async (email: string) => {
+  const result = await User.findOne({ email });
+
+  return result;
+};
 
 const getMe = async (userId: string, role: string) => {
   let result = null;
@@ -34,6 +40,8 @@ const changeStatus = async (id: string, payload: { status: string }) => {
 
 export const UserServices = {
   createUserIntoDB,
+  getUsersFromDB,
+  getUserFromDB,
   getMe,
   changeStatus,
 };
